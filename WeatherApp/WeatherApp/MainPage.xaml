@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WeatherApp.MainPage">
+
+    <StackLayout BackgroundColor="#194880">
+        <StackLayout BackgroundColor="#194880">
+            <Label Text="Weather" HorizontalOptions="Center" Margin="0,50,0,15"
+               FontSize="30" TextColor="#091c33" FontAttributes="Bold"/>
+            <Image Margin="0,0,0,55" Source="https://cdn-icons-png.flaticon.com/512/9139/9139799.png"/>
+        </StackLayout>
+
+        <RelativeLayout BackgroundColor="#194880">
+            <Frame RelativeLayout.YConstraint="-40" BackgroundColor="White"  Margin="80,0" CornerRadius="15">
+                <StackLayout>
+                    <Entry x:Name="userInput" WidthRequest="200" Placeholder="Enter a city"></Entry>
+                    <Button x:Name="getWeather" Clicked="getWeather_Clicked" Text="Get" BackgroundColor="#e6b035" TextColor="#8f6b18" FontAttributes="Bold"></Button>
+                </StackLayout>
+            </Frame>
+        </RelativeLayout>
+        <StackLayout BackgroundColor="#194880">
+            <Label x:Name="Name" FontSize="25" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold"/>
+            <Label x:Name="Temperature" FontSize="25" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold"/>
+            <Label x:Name="FeelingTemperature" FontSize="25" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold"/>
+            <Label x:Name="Pressure" FontSize="25" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold"/>
+        </StackLayout>
+    </StackLayout>
+
+</ContentPage>

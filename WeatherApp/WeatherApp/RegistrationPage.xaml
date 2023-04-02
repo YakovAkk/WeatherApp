@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WeatherApp.RegistrationPage"
+             BackgroundColor="#112B47">
+    <ContentPage.Content>
+        <StackLayout Padding="40" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+
+            <Label Text="REGISTRATION" FontSize="40" TextColor="White" HorizontalOptions="Center"/>
+            <Entry x:Name="UserName" Placeholder="Enter your name" TextColor="White" PlaceholderColor="Gray"/>
+            <Label x:Name="InvalidUserNameLable" TextColor="Red" HorizontalOptions="Center"/>
+            <Entry x:Name="Password" Placeholder="Enter password" IsPassword="True" TextColor="White" PlaceholderColor="Gray"/>
+            <Label x:Name="InvalidPasswordLable" TextColor="Red" HorizontalOptions="Center"/>
+            <Entry x:Name="ConfirmPassword" Placeholder="Confirm the password" IsPassword="True" TextColor="White" PlaceholderColor="Gray"/>
+            <Label x:Name="InvalidConfirmPasswordLable" TextColor="Red" HorizontalOptions="Center"/>
+
+            <Button Text="Register" Clicked="Register_Clicked" BorderColor="ForestGreen"
+                        VerticalOptions="Center" TextColor="White" BackgroundColor="Transparent" BorderWidth="1.5" CornerRadius="50"/>
+
+            <Label HorizontalOptions="Center">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Do have an account?" TextColor="Gray"/>
+                        <Span Text="Login" TextColor="Gray" FontAttributes="Bold" TextDecorations="Underline"/>
+                    </FormattedString>
+                </Label.FormattedText>
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="NavigationToLoginPage_Clicked"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
