@@ -6,7 +6,7 @@
     <StackLayout BackgroundColor="#194880">
         <StackLayout BackgroundColor="#194880">
             <Label Text="Weather" HorizontalOptions="Center" Margin="0,50,0,15"
-               FontSize="30" TextColor="#091c33" FontAttributes="Bold"/>
+               FontSize="30" TextColor="White" FontAttributes="Bold"/>
             <Image Margin="0,0,0,55" Source="https://cdn-icons-png.flaticon.com/512/9139/9139799.png"/>
         </StackLayout>
 
@@ -19,10 +19,10 @@
             </Frame>
         </RelativeLayout>
         <StackLayout BackgroundColor="#194880">
-            <Label x:Name="Name" FontSize="25" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold"/>
-            <Label x:Name="Temperature" FontSize="25" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold"/>
-            <Label x:Name="FeelingTemperature" FontSize="25" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold"/>
-            <Label x:Name="Pressure" FontSize="25" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold"/>
+            <Label x:Name="Name" FontSize="20" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold"/>
+            <Label x:Name="Temperature" FontSize="20" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold"/>
+            <Label x:Name="FeelingTemperature" FontSize="20" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold"/>
+            <Label x:Name="Pressure" FontSize="20" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold"/>
         </StackLayout>
     </StackLayout>
 
