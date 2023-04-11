@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
+using System.Net;
+using WeatherApp.Model.InputModel;
 using WeatherApp.Services.Base;
 using Xamarin.Forms;
 
@@ -21,28 +20,13 @@ namespace WeatherApp
             var name = UserName.Text;
             var password = Password.Text;
 
-            if (!IsValid(name, password))
-            {
-                return;
-            }
+            var userInputModel = new UserLoginInputModel() { Name = name, Password = password };
 
-            if (!IsValid(name.Trim(), password.Trim()))
-            {
-                return;
-            }
+            var data = await _userService.Login(userInputModel);
 
-            var user = _userService.GetUserByName(name);
-
-            if(user == null)
+            if(data.StatusCode != HttpStatusCode.OK)
             {
-                await DisplayAlert("Error", "User doesn't exist!", "Ok");
-                ClearAllFields();
-                return;
-            }
-
-            if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
-            {
-                await DisplayAlert("Error", "Password is incorrect!", "Ok");
+                await DisplayAlert("Error", data.ErrorMessage, "Ok");
                 ClearAllFields();
                 return;
             }
@@ -54,25 +38,7 @@ namespace WeatherApp
             await Navigation.PushAsync(new MainPage());
         }
 
-        private bool IsValid(string name, string password)
-        {
-            bool isValid = true;
-            InvalidUserNameLable.Text = string.Empty;
-            InvalidPasswordLable.Text = string.Empty;
-            if (string.IsNullOrEmpty(name))
-            {
-                InvalidUserNameLable.Text = "Name can't be empty or white space!";
-                isValid = false;
-            }
-            if (string.IsNullOrEmpty(password))
-            {
-                InvalidPasswordLable.Text = "Password can't be empty or white space!";
-                isValid = false;
-            }
-
-            return isValid;
-        }
-
+        
         private void ClearAllFields()
         {
             UserName.Text = string.Empty;
@@ -82,15 +48,6 @@ namespace WeatherApp
         private async void NavigationToRegistrationPage_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new RegistrationPage());
-        }
-
-        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512(passwordSalt))
-            {
-                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return computedHash.SequenceEqual(passwordHash);
-            }
         }
     }
 }

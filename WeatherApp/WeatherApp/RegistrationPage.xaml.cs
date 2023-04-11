@@ -1,7 +1,7 @@
-﻿using DataBase.Entities;
-using System;
+﻿using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using WeatherApp.Model.InputModel;
 using WeatherApp.Services.Base;
 using Xamarin.Forms;
 
@@ -27,37 +27,21 @@ namespace WeatherApp
                 return;
             }
 
-            if (!IsValid(name.Trim(), password.Trim(), confirmedPassword.Trim()))
-            {
-                return;
-            }
-
-            var userExist = _userService.GetUserByName(name);
-
-            if (userExist != null)
-            {
-                await DisplayAlert("Error", "User is already registered!", "Ok");
-                ClearAllFields();
-                return;
-            }
-
-            if (confirmedPassword != password)
-            {
-                await DisplayAlert("Error", "Both passwords must be equal", "Ok");
-                ClearAllFields();
-                return;
-            }
-
-            CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
-
-            var user = new UserEntity()
+            var user = new UserRegistrationInputModel()
             {
                 Name = name,
-                PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt
+                Password = password,
+                ConfirmPassword = confirmedPassword
             };
 
-            _userService.SaveUser(user);
+            var data = await _userService.SaveUser(user);
+
+            if (data.StatusCode != HttpStatusCode.OK)
+            {
+                await DisplayAlert("Error", data.ErrorMessage, "Ok");
+                ClearAllFields();
+                return;
+            }
 
             await DisplayAlert("Success", "You can sign in now!", "Ok");
             ClearAllFields();
@@ -96,15 +80,6 @@ namespace WeatherApp
             UserName.Text = string.Empty;
             Password.Text = string.Empty;
             ConfirmPassword.Text = string.Empty;
-        }
-
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-            }
         }
 
         private async void NavigationToLoginPage_Clicked(object sender, System.EventArgs e)

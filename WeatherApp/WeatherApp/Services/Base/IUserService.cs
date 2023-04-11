@@ -1,10 +1,13 @@
-﻿using DataBase.Entities;
+﻿using System.Threading.Tasks;
+using WeatherApp.Model.InputModel;
+using WeatherApp.Model.Response;
+using WeatherApp.Model.Response.Base;
 
 namespace WeatherApp.Services.Base
 {
     public interface IUserService
     {
-        UserEntity GetUserByName(string username);
-        int SaveUser(UserEntity user);
+        Task<ResponseModelBase> Login(UserLoginInputModel username);
+        Task<ResponseModelBase> SaveUser(UserRegistrationInputModel user);
     }
 }
