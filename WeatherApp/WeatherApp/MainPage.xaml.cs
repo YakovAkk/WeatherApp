@@ -2,16 +2,20 @@
 using System;
 using System.Net.Http;
 using WeatherApp.Model;
+using WeatherApp.Services;
+using WeatherApp.Services.Base;
 using Xamarin.Forms;
 
 namespace WeatherApp
 {
     public partial class MainPage : ContentPage
     {
-        private readonly string _apiKey = "a894b274525501189dae3335a81164cc";
+        
+        private readonly IWeatherService _weatherService;
         public MainPage()
         {
             InitializeComponent();
+            _weatherService = DependencyService.Get<IWeatherService>();
         }
 
         private async void getWeather_Clicked(object sender, EventArgs e)
@@ -22,25 +26,19 @@ namespace WeatherApp
                 await DisplayAlert("Error", "City's name must be bigger!", "Ok");
                 return;
             }
-            HttpClient client = new HttpClient();
 
-            string url = $"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={_apiKey}&units=metric";
+            var weather = await _weatherService.GetWeatherForCity(city);
 
-            try
+            if(weather == null)
             {
-                string response = await client.GetStringAsync(url);
-
-                var weather = JsonConvert.DeserializeObject<WeatherModel>(response);
-
-                Name.Text = $"City name {city}";
-                FeelingTemperature.Text = $"Feeling telperatire is {weather.Main.Feels_like} Celsius";
-                Temperature.Text = $"The temperature is {weather.Main.Temp} Celsius";
-                Pressure.Text = $"The pressure is {weather.Main.Pressure}";
+                await DisplayAlert("Error","Something went wrong", "Ok");
+                return;
             }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", ex.Message, "Ok");
-            }
+
+            Name.Text = $"City name {city}";
+            FeelingTemperature.Text = $"Feeling telperatire is {weather.Main.Feels_like} Celsius";
+            Temperature.Text = $"The temperature is {weather.Main.Temp} Celsius";
+            Pressure.Text = $"The pressure is {weather.Main.Pressure}";
         }
     }
 }

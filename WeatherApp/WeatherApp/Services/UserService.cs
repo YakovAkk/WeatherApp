@@ -15,7 +15,7 @@ namespace WeatherApp.Services
 {
     public class UserService : IUserService
     {
-        private const string _url = "https://10.1.10.231:7067/api";
+        private const string _url = "https://10.1.10.48:7067/api";
 
         public async Task<ResponseModelBase> Login(UserLoginInputModel user)
         {
